@@ -1,0 +1,97 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".cs" #>
+using System;
+using System.ComponentModel.Composition;
+
+namespace Ultima
+{
+	// root interface
+	public interface RootLazyInterface
+	{
+	}
+
+	// root service to import all dependencies
+	[Export(typeof(RootLazyInterface))]
+	internal class RootLazyService : RootLazyInterface
+	{
+		[Import]
+		private LazyInterface_0_0 Imported { get; set; }
+	}
+<#
+	Emit();
+#>
+}
+
+<#+
+	const int Levels = 5;
+	const int Imports = 20;
+
+	public void Emit()
+	{
+		for (var i = 0; i < Levels; i++)
+		{ #>
+
+	// ------------ Level #<#= i #>
+			<#+
+			EmitLevel(i);
+		}
+	}
+
+	public void EmitLevel(int level)
+	{
+		EmitInterfaces(level);
+		EmitServices(level);
+	}
+
+	public void EmitInterfaces(int level)
+	{
+		var count = level == 0 ? 1 : Imports;
+		for (int i = 0; i < count; i++)
+		{ #>
+
+	public interface LazyInterface_<#= level #>_<#= i #>
+	{
+	}
+		<#+
+		}
+	}
+
+	public void EmitServices(int level)
+	{
+		var count = level == 0 ? 1 : Imports;
+		for (int i = 0; i < count; i++)
+		{
+		#>
+
+	[Export(typeof(LazyInterface_<#= level #>_<#= i #>))]
+	internal class LazyService_<#= level #>_<#= i #> : LazyInterface_<#= level #>_<#= i #>
+	{
+		<#+ EmitImports(level+1); #>
+
+	}
+		<#+
+		}
+	}
+
+	public void EmitImports(int level)
+	{
+		if (level < Levels)
+		{
+			for (var i = 0; i < Imports; i++)
+			{ #>
+
+		[Import]
+		private Lazy<LazyInterface_<#= level #>_<#= i #>> Imported_<#= i #> { get; set; }
+			<#+
+			}
+		}
+		else
+		{
+			#> /* Last level — no imports */ <#+
+		}
+	}
+#>

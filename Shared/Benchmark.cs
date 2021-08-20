@@ -22,5 +22,16 @@ namespace Ultima
 				Debug.Assert(svc.Imported.Value != null);
 			}
 		}
+
+		public void ImportRootLazyService()
+		{
+			using (var scope = Container.OpenScope())
+			{
+				var svc = new ImportHelper<Lazy<RootLazyInterface>>();
+				scope.InjectPropertiesAndFields(svc);
+				Debug.Assert(svc.Imported != null);
+				Debug.Assert(svc.Imported.Value != null);
+			}
+		}
 	}
 }

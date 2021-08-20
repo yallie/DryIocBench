@@ -27,6 +27,7 @@ namespace Ultima
 
 			// run benchmarks
 			SharedProgram.StaticBenchmark(new ContainerAdapter(dryFactory()), logger.Information);
+			SharedProgram.LazyBenchmark(new ContainerAdapter(dryFactory()), logger.Information);
 		}
 	}
 }

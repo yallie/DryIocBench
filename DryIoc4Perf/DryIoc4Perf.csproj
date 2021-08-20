@@ -16,6 +16,7 @@
     <Compile Include="..\Shared\IMyResolverContext.cs" Link="IMyResolverContext.cs" />
     <Compile Include="..\Shared\SharedProgram.cs" Link="SharedProgram.cs" />
     <Compile Include="..\Shared\Services.cs" Link="Services.cs" />
+    <Compile Include="..\Shared\LazyServices.cs" Link="LazyServices.cs" />
   </ItemGroup>
 
   <ItemGroup>

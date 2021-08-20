@@ -67,5 +67,4 @@ D:\Externals\DryIocBench\Bin\v4\net46>DryIoc4Perf.exe
 2021-08-20 21:40:02.275 +03:00 [INF] Time elapsed: "00:00:03.7975021"
 ```
 
-* v4.8.1 performs ~72 times slower than v2.12.6
-* v3.0.2 performs ~876 times slower than v2.12.6
+* v4.8.1 performs 1.5 times faster than v2.12.6

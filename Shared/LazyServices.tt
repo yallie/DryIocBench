@@ -27,8 +27,8 @@ namespace Ultima
 }
 
 <#+
-	const int Levels = 5;
-	const int Imports = 20;
+	const int Levels = 10;
+	const int Imports = 30;
 
 	public void Emit()
 	{

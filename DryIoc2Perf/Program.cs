@@ -26,8 +26,7 @@ namespace Ultima
 				.WithDefaultReuseInsteadOfTransient(Reuse.ScopedOrSingleton));
 
 			// run benchmarks
-			SharedProgram.StaticBenchmark(new ContainerAdapter(dryFactory()), logger.Information);
-			SharedProgram.LazyBenchmark(new ContainerAdapter(dryFactory()), logger.Information);
+			SharedProgram.RunAllBenchmarks(() => new ContainerAdapter(dryFactory()), logger.Information);
 		}
 	}
 }

@@ -6,11 +6,18 @@
 <#@ output extension=".cs" #>
 using System;
 using System.ComponentModel.Composition;
+using Zyan.Communication;
+using Zyan.Communication.Composition;
 
 namespace Ultima
 {
 	// root interface
 	public interface RootInterface
+	{
+	}
+
+	// common interface
+	public interface CommonInterface
 	{
 	}
 
@@ -60,6 +67,8 @@ namespace Ultima
 		}
 	}
 
+	private bool IsCommon(int level, int index) => (level + index) % 3 == 0;
+
 	public void EmitServices(int level)
 	{
 		var count = level == 0 ? 1 : Imports;
@@ -67,8 +76,10 @@ namespace Ultima
 		{
 		#>
 
-	[Export(typeof(Interface_<#= level #>_<#= i #>))]
-	internal class Service_<#= level #>_<#= i #> : Interface_<#= level #>_<#= i #>
+	[Export(typeof(Interface_<#= level #>_<#= i #>))<#= IsCommon(level, i) ? ", Export(typeof(CommonInterface))" : "" #>]
+	[ZyanComponent(typeof(Interface_<#= level #>_<#= i #>))]
+	[Script(<#= level * 1000 + i#>)]
+	internal class Service_<#= level #>_<#= i #> : Interface_<#= level #>_<#= i #><#= IsCommon(level, i) ? ", CommonInterface" : "" #>
 	{
 		<#+ EmitImports(level+1); #>
 

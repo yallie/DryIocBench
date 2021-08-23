@@ -13,6 +13,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared code", "Shared code"
 		Shared\ImportHelper.cs = Shared\ImportHelper.cs
 		Shared\IMyContainer.cs = Shared\IMyContainer.cs
 		Shared\IMyResolverContext.cs = Shared\IMyResolverContext.cs
+		Shared\IScriptMetadata.cs = Shared\IScriptMetadata.cs
+		Shared\LazyServices.cs = Shared\LazyServices.cs
+		Shared\LazyServices.tt = Shared\LazyServices.tt
+		Shared\ScriptAttribute.cs = Shared\ScriptAttribute.cs
 		Shared\ScriptRegistrator.cs = Shared\ScriptRegistrator.cs
 		Shared\Services.cs = Shared\Services.cs
 		Shared\Services.tt = Shared\Services.tt
@@ -20,6 +24,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared code", "Shared code"
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DryIoc3Perf", "DryIoc3Perf\DryIoc3Perf.csproj", "{7B872C26-28E3-460E-B4A3-1EC61435DF33}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared", "Shared\Shared.csproj", "{843D1A8E-6A15-4758-95D5-A55AC0729DE1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +45,10 @@ Global
 		{7B872C26-28E3-460E-B4A3-1EC61435DF33}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7B872C26-28E3-460E-B4A3-1EC61435DF33}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7B872C26-28E3-460E-B4A3-1EC61435DF33}.Release|Any CPU.Build.0 = Release|Any CPU
+		{843D1A8E-6A15-4758-95D5-A55AC0729DE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{843D1A8E-6A15-4758-95D5-A55AC0729DE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{843D1A8E-6A15-4758-95D5-A55AC0729DE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{843D1A8E-6A15-4758-95D5-A55AC0729DE1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

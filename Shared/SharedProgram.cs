@@ -11,6 +11,13 @@ namespace Ultima
 	{
 		public delegate void Tracer(string format, params object[] arguments);
 
+		public static void RunAllBenchmarks(Func<ContainerAdapter> containerFactory, Tracer trace)
+		{
+			StaticBenchmark(containerFactory(), trace);
+			LazyBenchmark(containerFactory(), trace);
+			ImportManyBenchmark(containerFactory(), trace);
+		}
+
 		public static void StaticBenchmark(ContainerAdapter container, Tracer trace)
 		{
 			// register builtin services and scripts
@@ -24,10 +31,6 @@ namespace Ultima
 				var svc = new ImportHelper<Lazy<RootInterface>>();
 				scope.InjectPropertiesAndFields(svc);
 				trace("Imported service: {TypeName}", svc.Imported.Value.GetType().Name);
-
-				var lsvc = new ImportHelper<Lazy<RootLazyInterface>>();
-				scope.InjectPropertiesAndFields(lsvc);
-				trace("Imported lazy service: {TypeName}", lsvc.Imported.Value.GetType().Name);
 			}
 
 			// run benchmark
@@ -83,6 +86,44 @@ namespace Ultima
 			trace("Running the benchmark...");
 			var sw = Stopwatch.StartNew();
 			for (var i = 0; i < 1000; i++)
+			{
+				action();
+			}
+
+			sw.Stop();
+			trace("Time elapsed: {0}", sw.Elapsed);
+		}
+
+		public static void ImportManyBenchmark(ContainerAdapter container, Tracer trace)
+		{
+			// register builtin services and scripts
+			container.RegisterExports(typeof(RootInterface).Assembly);
+
+			trace("Started static benchmark.");
+
+			// test if everything is ok
+			using (var scope = container.OpenScope())
+			{
+				var svc = new ImportHelper<Lazy<CommonInterface>[]>();
+				scope.InjectPropertiesAndFields(svc);
+				trace("Imported common services: {TypeName}", svc.Imported.Length);
+			}
+
+			// run benchmark
+			var benchmark = new Benchmark(container);
+			var action = new Action(benchmark.ImportMany);
+
+			trace("Warming up...");
+			for (var i = 0; i < 5; i++)
+			{
+				action();
+			}
+
+			//Console.ReadLine();
+
+			trace("Running the benchmark...");
+			var sw = Stopwatch.StartNew();
+			for (var i = 0; i < 10000; i++)
 			{
 				action();
 			}

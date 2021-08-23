@@ -16,7 +16,6 @@
     <Compile Remove="ImportHelper.cs" />
     <Compile Remove="IMyContainer.cs" />
     <Compile Remove="IMyResolverContext.cs" />
-    <Compile Remove="LazyServices.cs" />
     <Compile Remove="Services.cs" />
     <Compile Remove="SharedProgram.cs" />
     <Compile Remove="IScriptMetadata.cs" />
@@ -28,7 +27,6 @@
     <None Include="ImportHelper.cs" />
     <None Include="IMyContainer.cs" />
     <None Include="IMyResolverContext.cs" />
-    <None Include="LazyServices.cs" />
     <None Include="Services.cs" />
     <None Include="SharedProgram.cs" />
     <None Include="IScriptMetadata.cs" />
@@ -36,11 +34,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="LazyServices.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>LazyServices.tt</DependentUpon>
-    </None>
     <None Include="Services.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -49,10 +42,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="LazyServices.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>LazyServices.cs</LastGenOutput>
-    </None>
     <None Update="Services.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Services.cs</LastGenOutput>

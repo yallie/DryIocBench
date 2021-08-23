@@ -13,13 +13,12 @@ namespace Ultima
 
 		public static void RunAllBenchmarks(Func<ContainerAdapter> containerFactory, Tracer trace)
 		{
-			StaticBenchmark(containerFactory(), trace);
-			LazyBenchmark(containerFactory(), trace);
+			ImportSingleBenchmark(containerFactory(), trace);
 			ImportManyBenchmark(containerFactory(), trace);
 			ImportManyWithMetadataBenchmark(containerFactory(), trace);
 		}
 
-		public static void StaticBenchmark(ContainerAdapter container, Tracer trace)
+		public static void ImportSingleBenchmark(ContainerAdapter container, Tracer trace)
 		{
 			// register builtin services and scripts
 			container.RegisterExports(typeof(RootInterface).Assembly);
@@ -32,44 +31,6 @@ namespace Ultima
 				var svc = new ImportHelper<Lazy<RootInterface>>();
 				scope.InjectPropertiesAndFields(svc);
 				trace("Imported service: {TypeName}", svc.Imported.Value.GetType().Name);
-			}
-
-			// run benchmark
-			var benchmark = new Benchmark(container);
-			var action = new Action(benchmark.ImportRootService);
-
-			trace("Warming up...");
-			for (var i = 0; i < 5; i++)
-			{
-				action();
-			}
-
-			//Console.ReadLine();
-
-			trace("Running the benchmark...");
-			var sw = Stopwatch.StartNew();
-			for (var i = 0; i < 1000; i++)
-			{
-				action();
-			}
-
-			sw.Stop();
-			trace("Time elapsed: {0}", sw.Elapsed);
-		}
-
-		public static void LazyBenchmark(ContainerAdapter container, Tracer trace)
-		{
-			// register builtin services and scripts
-			container.RegisterExports(typeof(RootInterface).Assembly);
-
-			trace("Started static benchmark.");
-
-			// test if everything is ok
-			using (var scope = container.OpenScope())
-			{
-				var svc = new ImportHelper<Lazy<RootLazyInterface>>();
-				scope.InjectPropertiesAndFields(svc);
-				trace("Imported lazy service: {TypeName}", svc.Imported.Value.GetType().Name);
 			}
 
 			// run benchmark

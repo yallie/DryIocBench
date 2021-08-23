@@ -16,11 +16,13 @@ namespace Ultima
 			// register builtin services and scripts
 			container.RegisterExports(typeof(RootInterface).Assembly);
 
-			ResolveSingleBenchmark(container, trace);
-			ResolveManyBenchmark(container, trace);
+			// commented out — nothing interesting
+			//ResolveSingleBenchmark(container, trace);
+			//ResolveManyBenchmark(container, trace);
 			ResolveManyWithMetadataBenchmark(container, trace);
 
-			ImportSingleBenchmark(container, trace);
+			// commented out — nothing interesting
+			//ImportSingleBenchmark(container, trace);
 			ImportManyBenchmark(container, trace);
 			ImportManyWithMetadataBenchmark(container, trace);
 		}
@@ -83,7 +85,7 @@ namespace Ultima
 			{
 				var resolved = scope.Resolve<Lazy<CommonInterface, IScriptMetadata>[]>();
 				trace("Imported common services: {TypeName}", resolved.Length);
-				trace("Service metadata: {ScriptAttributes}", resolved.Select(s => s.Metadata.ScriptID));
+				//trace("Service metadata: {ScriptAttributes}", resolved.Select(s => s.Metadata.ScriptID));
 			}
 
 			// run benchmark
@@ -132,7 +134,7 @@ namespace Ultima
 				var svc = new ImportHelper<Lazy<CommonInterface, IScriptMetadata>[]>();
 				scope.InjectPropertiesAndFields(svc);
 				trace("Imported common services: {TypeName}", svc.Imported.Length);
-				trace("Service metadata: {ScriptAttributes}", svc.Imported.Select(s => s.Metadata.ScriptID));
+				//trace("Service metadata: {ScriptAttributes}", svc.Imported.Select(s => s.Metadata.ScriptID));
 			}
 
 			// run benchmark

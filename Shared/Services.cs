@@ -3,12 +3,12 @@ using System.ComponentModel.Composition;
 
 namespace Ultima
 {
-	// root interface
+	// root interface for the service that imports all other services
 	public interface RootInterface
 	{
 	}
 
-	// common interface
+	// common interface for ImportMany/ResolveMany
 	public interface CommonInterface
 	{
 	}

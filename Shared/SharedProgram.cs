@@ -146,6 +146,7 @@ namespace Ultima
 				var svc = new ImportHelper<Lazy<CommonInterface, IScriptMetadata>[]>();
 				scope.InjectPropertiesAndFields(svc);
 				trace("Imported common services: {TypeName}", svc.Imported.Length);
+				trace("Service metadata: {ScriptAttributes}", svc.Imported.Select(s => s.Metadata.ScriptID));
 			}
 
 			// run benchmark

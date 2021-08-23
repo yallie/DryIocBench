@@ -16,6 +16,7 @@ namespace Ultima
 			StaticBenchmark(containerFactory(), trace);
 			LazyBenchmark(containerFactory(), trace);
 			ImportManyBenchmark(containerFactory(), trace);
+			ImportManyWithMetadataBenchmark(containerFactory(), trace);
 		}
 
 		public static void StaticBenchmark(ContainerAdapter container, Tracer trace)
@@ -112,6 +113,44 @@ namespace Ultima
 			// run benchmark
 			var benchmark = new Benchmark(container);
 			var action = new Action(benchmark.ImportMany);
+
+			trace("Warming up...");
+			for (var i = 0; i < 5; i++)
+			{
+				action();
+			}
+
+			//Console.ReadLine();
+
+			trace("Running the benchmark...");
+			var sw = Stopwatch.StartNew();
+			for (var i = 0; i < 10000; i++)
+			{
+				action();
+			}
+
+			sw.Stop();
+			trace("Time elapsed: {0}", sw.Elapsed);
+		}
+
+		public static void ImportManyWithMetadataBenchmark(ContainerAdapter container, Tracer trace)
+		{
+			// register builtin services and scripts
+			container.RegisterExports(typeof(RootInterface).Assembly);
+
+			trace("Started static benchmark.");
+
+			// test if everything is ok
+			using (var scope = container.OpenScope())
+			{
+				var svc = new ImportHelper<Lazy<CommonInterface, IScriptMetadata>[]>();
+				scope.InjectPropertiesAndFields(svc);
+				trace("Imported common services: {TypeName}", svc.Imported.Length);
+			}
+
+			// run benchmark
+			var benchmark = new Benchmark(container);
+			var action = new Action(benchmark.ImportManyWithMetadata);
 
 			trace("Warming up...");
 			for (var i = 0; i < 5; i++)

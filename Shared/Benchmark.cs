@@ -44,5 +44,16 @@ namespace Ultima
 				Debug.Assert(svc.Imported.Length > 0);
 			}
 		}
+
+		public void ImportManyWithMetadata()
+		{
+			using (var scope = Container.OpenScope())
+			{
+				var svc = new ImportHelper<Lazy<CommonInterface, IScriptMetadata>[]>();
+				scope.InjectPropertiesAndFields(svc);
+				Debug.Assert(svc.Imported != null);
+				Debug.Assert(svc.Imported.Length > 0);
+			}
+		}
 	}
 }

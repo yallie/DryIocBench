@@ -13,9 +13,87 @@ namespace Ultima
 
 		public static void RunAllBenchmarks(Func<ContainerAdapter> containerFactory, Tracer trace)
 		{
+			ResolveSingleBenchmark(containerFactory(), trace);
+			ResolveManyBenchmark(containerFactory(), trace);
+			ResolveManyWithMetadataBenchmark(containerFactory(), trace);
+
 			ImportSingleBenchmark(containerFactory(), trace);
 			ImportManyBenchmark(containerFactory(), trace);
 			ImportManyWithMetadataBenchmark(containerFactory(), trace);
+		}
+
+		public static void RunBenchmark(Action action, int count, Tracer trace)
+		{
+			trace("Warming up...");
+			for (var i = 0; i < 5; i++)
+			{
+				action();
+			}
+
+			trace("Running the benchmark...");
+			var sw = Stopwatch.StartNew();
+			for (var i = 0; i < count; i++)
+			{
+				action();
+			}
+
+			sw.Stop();
+			trace("Time elapsed: {0}", sw.Elapsed);
+		}
+
+		public static void ResolveSingleBenchmark(ContainerAdapter container, Tracer trace)
+		{
+			// register builtin services and scripts
+			container.RegisterExports(typeof(RootInterface).Assembly);
+
+			trace("Started ResolveSingle benchmark.");
+
+			// test if everything is ok
+			using (var scope = container.OpenScope())
+			{
+				var resolved = scope.Resolve<Lazy<RootInterface>>();
+				trace("Imported service: {TypeName}", resolved.Value.GetType().Name);
+			}
+
+			// run benchmark
+			RunBenchmark(new Benchmark(container).ResolveSingle, 1000, trace);
+		}
+
+		public static void ResolveManyBenchmark(ContainerAdapter container, Tracer trace)
+		{
+			// register builtin services and scripts
+			container.RegisterExports(typeof(RootInterface).Assembly);
+
+			trace("Started ResolveMany benchmark.");
+
+			// test if everything is ok
+			using (var scope = container.OpenScope())
+			{
+				var resolved = scope.Resolve<Lazy<CommonInterface>[]>();
+				trace("Imported common services: {TypeName}", resolved.Length);
+			}
+
+			// run benchmark
+			RunBenchmark(new Benchmark(container).ResolveMany, 10000, trace);
+		}
+
+		public static void ResolveManyWithMetadataBenchmark(ContainerAdapter container, Tracer trace)
+		{
+			// register builtin services and scripts
+			container.RegisterExports(typeof(RootInterface).Assembly);
+
+			trace("Started ResolveMany with metadata benchmark.");
+
+			// test if everything is ok
+			using (var scope = container.OpenScope())
+			{
+				var resolved = scope.Resolve<Lazy<CommonInterface, IScriptMetadata>[]>();
+				trace("Imported common services: {TypeName}", resolved.Length);
+				trace("Service metadata: {ScriptAttributes}", resolved.Select(s => s.Metadata.ScriptID));
+			}
+
+			// run benchmark
+			RunBenchmark(new Benchmark(container).ResolveManyWithMetadata, 10000, trace);
 		}
 
 		public static void ImportSingleBenchmark(ContainerAdapter container, Tracer trace)
@@ -23,7 +101,7 @@ namespace Ultima
 			// register builtin services and scripts
 			container.RegisterExports(typeof(RootInterface).Assembly);
 
-			trace("Started static benchmark.");
+			trace("Started ImportSingle benchmark.");
 
 			// test if everything is ok
 			using (var scope = container.OpenScope())
@@ -34,26 +112,7 @@ namespace Ultima
 			}
 
 			// run benchmark
-			var benchmark = new Benchmark(container);
-			var action = new Action(benchmark.ImportRootService);
-
-			trace("Warming up...");
-			for (var i = 0; i < 5; i++)
-			{
-				action();
-			}
-
-			//Console.ReadLine();
-
-			trace("Running the benchmark...");
-			var sw = Stopwatch.StartNew();
-			for (var i = 0; i < 1000; i++)
-			{
-				action();
-			}
-
-			sw.Stop();
-			trace("Time elapsed: {0}", sw.Elapsed);
+			RunBenchmark(new Benchmark(container).ImportSingle, 1000, trace);
 		}
 
 		public static void ImportManyBenchmark(ContainerAdapter container, Tracer trace)
@@ -61,7 +120,7 @@ namespace Ultima
 			// register builtin services and scripts
 			container.RegisterExports(typeof(RootInterface).Assembly);
 
-			trace("Started static benchmark.");
+			trace("Started ImportMany benchmark.");
 
 			// test if everything is ok
 			using (var scope = container.OpenScope())
@@ -72,26 +131,7 @@ namespace Ultima
 			}
 
 			// run benchmark
-			var benchmark = new Benchmark(container);
-			var action = new Action(benchmark.ImportMany);
-
-			trace("Warming up...");
-			for (var i = 0; i < 5; i++)
-			{
-				action();
-			}
-
-			//Console.ReadLine();
-
-			trace("Running the benchmark...");
-			var sw = Stopwatch.StartNew();
-			for (var i = 0; i < 10000; i++)
-			{
-				action();
-			}
-
-			sw.Stop();
-			trace("Time elapsed: {0}", sw.Elapsed);
+			RunBenchmark(new Benchmark(container).ImportMany, 10000, trace);
 		}
 
 		public static void ImportManyWithMetadataBenchmark(ContainerAdapter container, Tracer trace)
@@ -99,7 +139,7 @@ namespace Ultima
 			// register builtin services and scripts
 			container.RegisterExports(typeof(RootInterface).Assembly);
 
-			trace("Started static benchmark.");
+			trace("Started ImportMany with metadata benchmark.");
 
 			// test if everything is ok
 			using (var scope = container.OpenScope())
@@ -111,26 +151,7 @@ namespace Ultima
 			}
 
 			// run benchmark
-			var benchmark = new Benchmark(container);
-			var action = new Action(benchmark.ImportManyWithMetadata);
-
-			trace("Warming up...");
-			for (var i = 0; i < 5; i++)
-			{
-				action();
-			}
-
-			//Console.ReadLine();
-
-			trace("Running the benchmark...");
-			var sw = Stopwatch.StartNew();
-			for (var i = 0; i < 10000; i++)
-			{
-				action();
-			}
-
-			sw.Stop();
-			trace("Time elapsed: {0}", sw.Elapsed);
+			RunBenchmark(new Benchmark(container).ImportManyWithMetadata, 10000, trace);
 		}
 	}
 }

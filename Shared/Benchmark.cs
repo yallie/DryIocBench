@@ -12,7 +12,7 @@ namespace Ultima
 
 		private IMyContainer Container { get; set; }
 
-		public void ImportRootService()
+		public void ImportSingle()
 		{
 			using (var scope = Container.OpenScope())
 			{
@@ -42,6 +42,37 @@ namespace Ultima
 				scope.InjectPropertiesAndFields(svc);
 				Debug.Assert(svc.Imported != null);
 				Debug.Assert(svc.Imported.Length > 0);
+			}
+		}
+
+		public void ResolveSingle()
+		{
+			using (var scope = Container.OpenScope())
+			{
+				var resolved = scope.Resolve<Lazy<RootInterface>>();
+				scope.InjectPropertiesAndFields(resolved);
+				Debug.Assert(resolved != null);
+				Debug.Assert(resolved.Value != null);
+			}
+		}
+
+		public void ResolveMany()
+		{
+			using (var scope = Container.OpenScope())
+			{
+				var resolved = scope.Resolve<Lazy<CommonInterface>[]>();
+				Debug.Assert(resolved != null);
+				Debug.Assert(resolved.Length > 0);
+			}
+		}
+
+		public void ResolveManyWithMetadata()
+		{
+			using (var scope = Container.OpenScope())
+			{
+				var resolved = scope.Resolve<Lazy<CommonInterface, IScriptMetadata>[]>();
+				Debug.Assert(resolved != null);
+				Debug.Assert(resolved.Length > 0);
 			}
 		}
 	}

@@ -13,6 +13,8 @@ namespace Ultima
 
 		public void Dispose() => Container.Dispose();
 
+		public T Resolve<T>() => Container.Resolve<T>();
+
 		public void InjectPropertiesAndFields(object instance) =>
 			Container.InjectPropertiesAndFields(instance);
 
@@ -24,17 +26,6 @@ namespace Ultima
 			if (Container is IContainer container)
 			{
 				container.RegisterExports(assemblies);
-				return;
-			}
-
-			throw new InvalidOperationException();
-		}
-
-		public void AddDynamicRegistrations(Rules.DynamicRegistrationProvider getDynamicRegistrations)
-		{
-			if (Container is IContainer container)
-			{
-				Container = container.With(r => r.WithDynamicRegistrations(getDynamicRegistrations));
 				return;
 			}
 

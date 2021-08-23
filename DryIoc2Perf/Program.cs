@@ -18,7 +18,7 @@ namespace Ultima
 			logger.Information("Starting up...");
 
 			// DryIoc container factory
-			Func<IContainer> dryFactory = () => new Container().WithMef()
+			var dryIoc = new Container().WithMef()
 				.With(rules => rules
 				.With(FactoryMethod.ConstructorWithResolvableArguments)
 				.WithCaptureContainerDisposeStackTrace()
@@ -26,7 +26,7 @@ namespace Ultima
 				.WithDefaultReuseInsteadOfTransient(Reuse.ScopedOrSingleton));
 
 			// run benchmarks
-			SharedProgram.RunAllBenchmarks(() => new ContainerAdapter(dryFactory()), logger.Information);
+			SharedProgram.RunAllBenchmarks(new ContainerAdapter(dryIoc), logger.Information);
 		}
 	}
 }

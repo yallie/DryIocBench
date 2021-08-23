@@ -11,15 +11,18 @@ namespace Ultima
 	{
 		public delegate void Tracer(string format, params object[] arguments);
 
-		public static void RunAllBenchmarks(Func<ContainerAdapter> containerFactory, Tracer trace)
+		public static void RunAllBenchmarks(ContainerAdapter container, Tracer trace)
 		{
-			ResolveSingleBenchmark(containerFactory(), trace);
-			ResolveManyBenchmark(containerFactory(), trace);
-			ResolveManyWithMetadataBenchmark(containerFactory(), trace);
+			// register builtin services and scripts
+			container.RegisterExports(typeof(RootInterface).Assembly);
 
-			ImportSingleBenchmark(containerFactory(), trace);
-			ImportManyBenchmark(containerFactory(), trace);
-			ImportManyWithMetadataBenchmark(containerFactory(), trace);
+			ResolveSingleBenchmark(container, trace);
+			ResolveManyBenchmark(container, trace);
+			ResolveManyWithMetadataBenchmark(container, trace);
+
+			ImportSingleBenchmark(container, trace);
+			ImportManyBenchmark(container, trace);
+			ImportManyWithMetadataBenchmark(container, trace);
 		}
 
 		public static void RunBenchmark(Action action, int count, Tracer trace)
@@ -43,9 +46,6 @@ namespace Ultima
 
 		public static void ResolveSingleBenchmark(ContainerAdapter container, Tracer trace)
 		{
-			// register builtin services and scripts
-			container.RegisterExports(typeof(RootInterface).Assembly);
-
 			trace("Started ResolveSingle benchmark.");
 
 			// test if everything is ok
@@ -61,9 +61,6 @@ namespace Ultima
 
 		public static void ResolveManyBenchmark(ContainerAdapter container, Tracer trace)
 		{
-			// register builtin services and scripts
-			container.RegisterExports(typeof(RootInterface).Assembly);
-
 			trace("Started ResolveMany benchmark.");
 
 			// test if everything is ok
@@ -79,9 +76,6 @@ namespace Ultima
 
 		public static void ResolveManyWithMetadataBenchmark(ContainerAdapter container, Tracer trace)
 		{
-			// register builtin services and scripts
-			container.RegisterExports(typeof(RootInterface).Assembly);
-
 			trace("Started ResolveMany with metadata benchmark.");
 
 			// test if everything is ok
@@ -98,9 +92,6 @@ namespace Ultima
 
 		public static void ImportSingleBenchmark(ContainerAdapter container, Tracer trace)
 		{
-			// register builtin services and scripts
-			container.RegisterExports(typeof(RootInterface).Assembly);
-
 			trace("Started ImportSingle benchmark.");
 
 			// test if everything is ok
@@ -117,9 +108,6 @@ namespace Ultima
 
 		public static void ImportManyBenchmark(ContainerAdapter container, Tracer trace)
 		{
-			// register builtin services and scripts
-			container.RegisterExports(typeof(RootInterface).Assembly);
-
 			trace("Started ImportMany benchmark.");
 
 			// test if everything is ok
@@ -136,9 +124,6 @@ namespace Ultima
 
 		public static void ImportManyWithMetadataBenchmark(ContainerAdapter container, Tracer trace)
 		{
-			// register builtin services and scripts
-			container.RegisterExports(typeof(RootInterface).Assembly);
-
 			trace("Started ImportMany with metadata benchmark.");
 
 			// test if everything is ok

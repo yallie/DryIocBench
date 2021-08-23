@@ -7,25 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DryIoc4Perf", "DryIoc4Perf\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DryIoc2Perf", "DryIoc2Perf\DryIoc2Perf.csproj", "{483F2BE6-20FE-499F-BF01-37077E5CE2C4}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared code", "Shared code", "{97831C6D-7692-4C48-A158-0C18492EC622}"
-	ProjectSection(SolutionItems) = preProject
-		Shared\Benchmark.cs = Shared\Benchmark.cs
-		Shared\ImportHelper.cs = Shared\ImportHelper.cs
-		Shared\IMyContainer.cs = Shared\IMyContainer.cs
-		Shared\IMyResolverContext.cs = Shared\IMyResolverContext.cs
-		Shared\IScriptMetadata.cs = Shared\IScriptMetadata.cs
-		Shared\LazyServices.cs = Shared\LazyServices.cs
-		Shared\LazyServices.tt = Shared\LazyServices.tt
-		Shared\ScriptAttribute.cs = Shared\ScriptAttribute.cs
-		Shared\ScriptRegistrator.cs = Shared\ScriptRegistrator.cs
-		Shared\Services.cs = Shared\Services.cs
-		Shared\Services.tt = Shared\Services.tt
-		Shared\SharedProgram.cs = Shared\SharedProgram.cs
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DryIoc3Perf", "DryIoc3Perf\DryIoc3Perf.csproj", "{7B872C26-28E3-460E-B4A3-1EC61435DF33}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared", "Shared\Shared.csproj", "{843D1A8E-6A15-4758-95D5-A55AC0729DE1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared Files", "Shared\Shared Files.csproj", "{843D1A8E-6A15-4758-95D5-A55AC0729DE1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

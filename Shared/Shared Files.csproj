@@ -24,6 +24,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Benchmark.cs" />
+    <None Include="ImportHelper.cs" />
+    <None Include="IMyContainer.cs" />
+    <None Include="IMyResolverContext.cs" />
+    <None Include="LazyServices.cs" />
+    <None Include="Services.cs" />
+    <None Include="SharedProgram.cs" />
+    <None Include="IScriptMetadata.cs" />
+    <None Include="ScriptAttribute.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="LazyServices.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -34,42 +46,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Services.tt</DependentUpon>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="DryIoc.MefAttributedModel.dll" Version="3.2.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="linq2db" Version="3.4.2" />
-    <PackageReference Include="OpenTelemetry" Version="1.0.1" />
-    <PackageReference Include="OpenTelemetry.Api" Version="1.0.1" />
-    <PackageReference Include="Nancy" Version="2.0.0" />
-    <PackageReference Include="Nancy.Hosting.Self" Version="2.0.0" />
-    <PackageReference Include="Serilog" Version="2.10.0" />
-    <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
-    <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
-    <PackageReference Include="ServiceStack.Text" Version="4.0.62" />
-    <PackageReference Include="Zyan" Version="2.15.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="Metadata">
-      <HintPath>..\References\Metadata.dll</HintPath>
-    </Reference>
-    <Reference Include="Interfaces">
-      <HintPath>..\References\Interfaces.dll</HintPath>
-    </Reference>
-    <Reference Include="Scripts">
-      <HintPath>..\References\Scripts.dll</HintPath>
-    </Reference>
-    <Reference Include="Services">
-      <HintPath>..\References\Services.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
 
   <ItemGroup>

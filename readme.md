@@ -1,4 +1,9 @@
 ﻿# DryIoc v4 vs DryIoc v2
+ 
+ Version | Resolve[] | Import[] | Import[] with metadata |
+|--------|-----------|----------|------------------------|
+| 2.12.6 | 0.245     | 0.410    | 0.388                  |
+| 4.8.1  | 0.137     | 3.655    | 9.204                  |
 
 ### v2.12.6.0
 
@@ -41,7 +46,3 @@
 2021-08-24 02:46:57.084 +03:00 [INF] Running the benchmark...
 2021-08-24 02:47:06.291 +03:00 [INF] Time elapsed: "00:00:09.2048379"
 ```
-
-* Import: v4.8.1 performs 1.75 times faster than v2.12.6
-* ImportMany: v4.8.1 performs 15 times slower than v2.12.6
-* ImportMany with metadata: v4.8.1 performs 33 times slower than v2.12.6
